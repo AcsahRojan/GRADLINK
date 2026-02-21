@@ -33,7 +33,7 @@ import { KERALA_COLLEGES } from '../constants/colleges';
 
 
 const SProfile = () => {
-    const [activeTab, setActiveTab] = useState(0);
+    
     // Section-based editing state
     const [editing, setEditing] = useState({
         contacts: false,
@@ -42,7 +42,7 @@ const SProfile = () => {
     });
 
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+   
 
     const primaryBrand = '#6366f1';
     const deepZinc = '#09090b';
@@ -226,15 +226,8 @@ const SProfile = () => {
 
                         {/* Right Detailed Info */}
                         <Grid item xs={12} md={7} lg={8}>
-                            <Box sx={{ borderBottom: 1, borderColor: glassBorder, mb: 4 }}>
-                                <Tabs value={activeTab} onChange={handleTabChange} TabIndicatorProps={{ sx: { bgcolor: primaryBrand, height: 3 } }}>
-                                    <Tab label="About" sx={{ fontWeight: 700 }} />
-                                    <Tab label="Activity" sx={{ fontWeight: 700 }} />
-                                    <Tab label="Settings" sx={{ fontWeight: 700 }} />
-                                </Tabs>
-                            </Box>
-
-                            {activeTab === 0 && (
+                           
+                            
                                 <Stack spacing={{ xs: 2.5, md: 4 }}>
                                     {/* Contact Info Card */}
                                     <Paper elevation={0} sx={{
@@ -430,21 +423,7 @@ const SProfile = () => {
                                             </Box>
                                         </Stack>
                                     </Paper>
-                                </Stack>
-                            )}
-
-                            {activeTab === 1 && (
-                                <Paper elevation={0} sx={{ p: 8, borderRadius: '24px', border: `1px solid ${glassBorder}`, textAlign: 'center' }}>
-                                    <Typography variant="h5" fontWeight="800">No public activity yet</Typography>
-                                </Paper>
-                            )}
-
-                            {activeTab === 2 && (
-                                <Paper elevation={0} sx={{ p: 5, borderRadius: '24px', border: `1px solid ${glassBorder}` }}>
-                                    <Typography variant="h6" fontWeight="800">Account Settings</Typography>
-                                    <Typography variant="body2" color={mutedZinc} sx={{ mt: 2 }}>Manage security preferences.</Typography>
-                                </Paper>
-                            )}
+                                </Stack>                   
                         </Grid>
                     </Grid>
                 </Container>

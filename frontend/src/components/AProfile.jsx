@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
     Container, Box, Grid, Typography, Stack, Paper, Avatar, Button, Chip,
-    IconButton, Divider, Tab, Tabs, Switch, TextField as MuiTextField,
+    IconButton, Divider, Switch, TextField as MuiTextField,
     FormControl, InputLabel, Select, MenuItem, OutlinedInput,
 } from '@mui/material';
 import {
-    Edit, CameraAlt, LinkedIn, GitHub, Language, Email, Phone, School, Verified,
+    Edit, CameraAlt, LinkedIn, Email, Phone, School, 
     Close
 } from '@mui/icons-material';
 import ANavbar from './ANavbar';
@@ -16,7 +16,6 @@ import { KERALA_COLLEGES } from '../constants/colleges';
 
 const AProfile = () => {
     const navigate = useNavigate();
-    const [activeTab, setActiveTab] = useState(0);
     const [mentorshipTypes, setMentorshipTypes] = useState([]);
     const [storageUser] = useState(() => JSON.parse(localStorage.getItem("user")));
     const [editing, setEditing] = useState({
@@ -181,39 +180,6 @@ const AProfile = () => {
 
     if (!user) return null;
 
-    const EditableSection = ({ section, title, icon: Icon, children }) => (
-        <Paper elevation={0} sx={{
-            p: { xs: 2.5, md: 4 },
-            borderRadius: { xs: '16px', md: '24px' },
-            border: '1px solid rgba(228, 228, 231, 0.6)',
-            position: 'relative'
-        }}>
-            <Stack direction="row" justifyContent="space-between" alignItems="center" mb={3}>
-                <Typography variant="h6" fontWeight="800" sx={{ fontSize: { xs: '1rem', md: '1.1rem' }, display: 'flex', alignItems: 'center', gap: 1 }}>
-                    {Icon && <Icon sx={{ fontSize: { xs: '1.25rem', md: '1.5rem' } }} />}
-                    {title}
-                </Typography>
-                <IconButton
-                    size="small"
-                    onClick={() => setEditing(prev => ({ ...prev, [section]: !prev[section] }))}
-                >
-                    {editing[section] ? <Close fontSize="small" /> : <Edit fontSize="small" />}
-                </IconButton>
-            </Stack>
-            {children}
-            {editing[section] && (
-                <Stack direction="row" spacing={1.5} sx={{ mt: 2 }}>
-                    <Button variant="outlined" onClick={() => cancelSection(section)} sx={{ textTransform: 'none' }}>
-                        Cancel
-                    </Button>
-                    <Button variant="contained" onClick={() => saveSection(section)} sx={{ bgcolor: deepZinc, textTransform: 'none' }}>
-                        Save
-                    </Button>
-                </Stack>
-            )}
-        </Paper>
-    );
-
     return (
         <>
             <ANavbar />
@@ -283,7 +249,7 @@ const AProfile = () => {
                                         fontSize: { xs: '1rem', md: '1.25rem' }
                                     }}>
                                         {user.first_name} {user.last_name}
-                                        <Verified sx={{ fontSize: { xs: '1rem', md: '1.25rem' }, color: primaryBrand }} />
+                                       
                                     </Typography>
 
                                     <Typography variant="body2" color={mutedZinc} fontWeight="500" sx={{ fontSize: { xs: '0.8rem', md: '0.9rem' }, mt: 0.5 }}>
@@ -342,29 +308,7 @@ const AProfile = () => {
                         </Grid>
 
                         {/* Right Content */}
-                        <Grid item xs={12} md={7} lg={8}>
-                            <Box sx={{ borderBottom: 1, borderColor: 'rgba(228, 228, 231, 0.6)', mb: { xs: 3, md: 4 } }}>
-                                <Tabs
-                                    value={activeTab}
-                                    onChange={(e, v) => setActiveTab(v)}
-                                    variant="fullWidth"
-                                    sx={{
-                                        '& .MuiTab-root': {
-                                            fontWeight: 700,
-                                            fontSize: { xs: '0.85rem', md: '0.95rem' },
-                                            textTransform: 'none',
-                                            py: { xs: 1.5, md: 2 }
-                                        },
-                                        '& .MuiTabs-indicator': { bgcolor: primaryBrand, height: 3 }
-                                    }}
-                                >
-                                    <Tab label="About" />
-                                    <Tab label="Activity" />
-                                    <Tab label="Settings" />
-                                </Tabs>
-                            </Box>
-
-                            {activeTab === 0 && (
+                        <Grid item xs={12} md={7} lg={8}>                       
                                 <Stack spacing={{ xs: 2.5, md: 4 }}>
                                     {/* Contact Info Card */}
                                     <Paper elevation={0} sx={{
@@ -764,36 +708,7 @@ const AProfile = () => {
                                             </Box>
                                         </Stack>
                                     </Paper>
-                                </Stack>
-                            )}
-
-                            {activeTab === 1 && (
-                                <Paper elevation={0} sx={{
-                                    p: { xs: 4, md: 8 },
-                                    borderRadius: { xs: '16px', md: '24px' },
-                                    border: '1px solid rgba(228, 228, 231, 0.6)',
-                                    textAlign: 'center'
-                                }}>
-                                    <Typography variant="h6" fontWeight="800" color={mutedZinc} sx={{ fontSize: { xs: '1rem', md: '1.1rem' } }}>
-                                        No activity yet
-                                    </Typography>
-                                </Paper>
-                            )}
-
-                            {activeTab === 2 && (
-                                <Paper elevation={0} sx={{
-                                    p: { xs: 3, md: 5 },
-                                    borderRadius: { xs: '16px', md: '24px' },
-                                    border: '1px solid rgba(228, 228, 231, 0.6)'
-                                }}>
-                                    <Typography variant="h6" fontWeight="800" sx={{ fontSize: { xs: '1rem', md: '1.1rem' } }}>
-                                        Account Settings
-                                    </Typography>
-                                    <Typography variant="body2" color={mutedZinc} sx={{ mt: 2, fontSize: { xs: '0.85rem', md: '0.9rem' } }}>
-                                        Settings coming soon...
-                                    </Typography>
-                                </Paper>
-                            )}
+                                </Stack>              
                         </Grid>
                     </Grid>
                 </Container>
