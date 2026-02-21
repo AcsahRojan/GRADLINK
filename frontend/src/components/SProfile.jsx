@@ -15,6 +15,7 @@ import {
     useMediaQuery,
     useTheme,
     TextField as MuiTextField,
+    MenuItem,
 } from '@mui/material';
 import {
     Edit,
@@ -27,6 +28,8 @@ import {
 } from '@mui/icons-material';
 import SNavbar from './SNavbar';
 import api, { updateProfile } from '../api';
+import { KERALA_DEGREES } from '../constants/degrees';
+import { KERALA_COLLEGES } from '../constants/colleges';
 
 
 const SProfile = () => {
@@ -46,20 +49,7 @@ const SProfile = () => {
     const mutedZinc = '#71717a';
     const glassBorder = 'rgba(228, 228, 231, 0.6)';
 
-    // Initialize mock user if none exists for the preview
-    if (!localStorage.getItem("user")) {
-        localStorage.setItem("user", JSON.stringify({
-            first_name: "John",
-            last_name: "Doe",
-            email: "john.doe@university.edu",
-            phone: "+1 (555) 000-1234",
-            college: "Stanford University",
-            degree: "B.S. Computer Science",
-            batch_year: "2025",
-            bio: "Passionate about full-stack development and AI.",
-            token: "mock-token"
-        }));
-    }
+
 
     const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
     const fileInputRef = React.useRef(null);
@@ -153,22 +143,22 @@ const SProfile = () => {
         <>
             <SNavbar />
             <Box sx={{ bgcolor: '#fcfcfd', minHeight: '100vh', pb: { xs: 2, md: 4, lg: 4 } }}>
-                            <Box sx={{ height: { xs: 30, md: 50 } }} />
-                            <Container maxWidth="xl" sx={{ px: { xs: 1.5, md: 4 }, pt: { xs: 2, md: 4 } }}>
-                                <Grid container spacing={{ xs: 2, md: 4 }} display={'grid'} gridTemplateColumns={{ xs: '1fr', md: '1fr 2fr' }}>
-                                    {/* Left Profile Card */}
-                                    <Grid item xs={12} md={5} lg={4}>
-                                        <Paper elevation={0} sx={{
-                                            borderRadius: { xs: '16px', md: '24px' },
-                                            border: '1px solid rgba(228, 228, 231, 0.6)',
-                                            overflow: 'hidden',
-                                            position: 'sticky',
-                                            top: { lg: 100 }
-                                        }}>
-                                <Box sx={{ 
+                <Box sx={{ height: { xs: 30, md: 50 } }} />
+                <Container maxWidth="xl" sx={{ px: { xs: 1.5, md: 4 }, pt: { xs: 2, md: 4 } }}>
+                    <Grid container spacing={{ xs: 2, md: 4 }} display={'grid'} gridTemplateColumns={{ xs: '1fr', md: '1fr 2fr' }}>
+                        {/* Left Profile Card */}
+                        <Grid item xs={12} md={5} lg={4}>
+                            <Paper elevation={0} sx={{
+                                borderRadius: { xs: '16px', md: '24px' },
+                                border: '1px solid rgba(228, 228, 231, 0.6)',
+                                overflow: 'hidden',
+                                position: 'sticky',
+                                top: { lg: 100 }
+                            }}>
+                                <Box sx={{
                                     height: { xs: 100, md: 140 },
                                     bgcolor: deepZinc,
-                                    position: 'relative' 
+                                    position: 'relative'
                                 }}>
                                     <input type="file" hidden ref={fileInputRef} onChange={handleImageChange} accept="image/*" />
                                     <IconButton
@@ -202,34 +192,34 @@ const SProfile = () => {
                                     <Divider sx={{ my: 4 }} />
 
                                     <Stack spacing={{ xs: 1.5, md: 2.5 }} sx={{ textAlign: 'left' }}>
-                                                                            <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'flex-start' }}>
-                                                                                <Email sx={{ color: mutedZinc, fontSize: { xs: '1.1rem', md: '1.25rem' }, mt: 0.3 }} />
-                                                                                <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1.5 }}>
-                                                                                    <Typography variant="caption" fontWeight="600" color={mutedZinc} display="block">EMAIL</Typography>
-                                                                                    <Typography variant="body2" sx={{ fontSize: { xs: '0.8rem', md: '0.9rem' }, wordBreak: 'break-word' }}>
-                                                                                        {user.email}
-                                                                                    </Typography>
-                                                                                </Box>
-                                                                            </Box>
-                                                                            <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'flex-start' }}>
-                                                                                <Phone sx={{ color: mutedZinc, fontSize: { xs: '1.1rem', md: '1.25rem' }, mt: 0.3 }} />
-                                                                                <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1.5 }}>
-                                                                                    <Typography variant="caption" fontWeight="600" color={mutedZinc} display="block">PHONE</Typography>
-                                                                                    <Typography variant="body2" sx={{ fontSize: { xs: '0.8rem', md: '0.9rem' } }}>
-                                                                                        {user.phone || 'Not provided'}
-                                                                                    </Typography>
-                                                                                </Box>
-                                                                            </Box>
-                                                                            <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'flex-start' }}>
-                                                                                <School sx={{ color: mutedZinc, fontSize: { xs: '1.1rem', md: '1.25rem' }, mt: 0.3 }} />
-                                                                                <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1.5 }}>
-                                                                                    <Typography variant="caption" fontWeight="600" color={mutedZinc} display="block">DEGREE</Typography>
-                                                                                    <Typography variant="body2" sx={{ fontSize: { xs: '0.8rem', md: '0.9rem' } }}>
-                                                                                        {user.degree}
-                                                                                    </Typography>
-                                                                                </Box>
-                                                                            </Box>
-                                                                        </Stack>
+                                        <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'flex-start' }}>
+                                            <Email sx={{ color: mutedZinc, fontSize: { xs: '1.1rem', md: '1.25rem' }, mt: 0.3 }} />
+                                            <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1.5 }}>
+                                                <Typography variant="caption" fontWeight="600" color={mutedZinc} display="block">EMAIL</Typography>
+                                                <Typography variant="body2" sx={{ fontSize: { xs: '0.8rem', md: '0.9rem' }, wordBreak: 'break-word' }}>
+                                                    {user.email}
+                                                </Typography>
+                                            </Box>
+                                        </Box>
+                                        <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'flex-start' }}>
+                                            <Phone sx={{ color: mutedZinc, fontSize: { xs: '1.1rem', md: '1.25rem' }, mt: 0.3 }} />
+                                            <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1.5 }}>
+                                                <Typography variant="caption" fontWeight="600" color={mutedZinc} display="block">PHONE</Typography>
+                                                <Typography variant="body2" sx={{ fontSize: { xs: '0.8rem', md: '0.9rem' } }}>
+                                                    {user.phone || 'Not provided'}
+                                                </Typography>
+                                            </Box>
+                                        </Box>
+                                        <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'flex-start' }}>
+                                            <School sx={{ color: mutedZinc, fontSize: { xs: '1.1rem', md: '1.25rem' }, mt: 0.3 }} />
+                                            <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1.5 }}>
+                                                <Typography variant="caption" fontWeight="600" color={mutedZinc} display="block">DEGREE</Typography>
+                                                <Typography variant="body2" sx={{ fontSize: { xs: '0.8rem', md: '0.9rem' } }}>
+                                                    {user.degree}
+                                                </Typography>
+                                            </Box>
+                                        </Box>
+                                    </Stack>
                                 </Box>
                             </Paper>
                         </Grid>
@@ -336,7 +326,7 @@ const SProfile = () => {
                                             )}
                                         </Grid>
                                     </Paper>
-                                                                    
+
                                     {/* BIO SECTION */}
                                     <Paper elevation={0} sx={{ p: 5, borderRadius: '24px', border: `1px solid ${glassBorder}` }}>
                                         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -392,10 +382,41 @@ const SProfile = () => {
                                                 <Box sx={{ flex: 1 }}>
                                                     {editing.education ? (
                                                         <Stack spacing={2}>
-                                                            <MuiTextField fullWidth label="College" name="college" value={formData.college} onChange={handleInputChange} size="small" />
+                                                            <MuiTextField fullWidth label="College"
+                                                                name="college"
+                                                                value={formData.college}
+                                                                onChange={handleInputChange}
+                                                                size="small" select
+                                                            >
+                                                                {KERALA_COLLEGES.map((col) => (
+                                                                    <MenuItem key={col} value={col}>{col}</MenuItem>
+                                                                ))}
+                                                            </MuiTextField>
                                                             <Stack direction="row" spacing={2}>
-                                                                <MuiTextField fullWidth label="Degree" name="degree" value={formData.degree} onChange={handleInputChange} size="small" />
-                                                                <MuiTextField fullWidth label="Batch Year" name="batch_year" type="number" value={formData.batch_year} onChange={handleInputChange} size="small" />
+                                                                <MuiTextField fullWidth label="Degree"
+                                                                    name="degree"
+                                                                    value={formData.degree}
+                                                                    onChange={handleInputChange}
+                                                                    size="small" select
+                                                                >
+                                                                    {KERALA_DEGREES.map((deg) => (
+                                                                        <MenuItem key={deg} value={deg}>{deg}</MenuItem>
+                                                                    ))}
+                                                                </MuiTextField>
+                                                                <MuiTextField fullWidth
+                                                                    label="Batch Year"
+                                                                    name="batch_year"
+                                                                    type="number"
+                                                                    value={formData.batch_year}
+                                                                    onChange={handleInputChange}
+                                                                    size="small"
+                                                                    select
+                                                                >
+                                                                    {Array.from({ length: 7 }, (_, i) => new Date().getFullYear() + i)
+                                                                        .map((yr) => (
+                                                                            <MenuItem key={yr} value={yr}>{yr}</MenuItem>
+                                                                        ))}
+                                                                </MuiTextField>
                                                             </Stack>
                                                         </Stack>
                                                     ) : (

@@ -11,6 +11,8 @@ import {
 } from '@mui/icons-material';
 import ANavbar from './ANavbar';
 import api, { updateProfile, getMentorshipTypes } from '../api';
+import { KERALA_DEGREES } from '../constants/degrees';
+import { KERALA_COLLEGES } from '../constants/colleges';
 
 const AProfile = () => {
     const navigate = useNavigate();
@@ -700,7 +702,12 @@ const AProfile = () => {
                                                                 size="small"
                                                                 sx={{ mb: 1.5 }}
                                                                 placeholder="College"
-                                                            />
+                                                                select
+                                                            >
+                                                                {KERALA_COLLEGES.map((col) => (
+                                                                    <MenuItem key={col} value={col}>{col}</MenuItem>
+                                                                ))}
+                                                            </MuiTextField>
                                                             <Stack direction="column" spacing={1.5} sx={{ mb: 2 }}>
                                                                 <MuiTextField
                                                                     fullWidth
@@ -709,16 +716,27 @@ const AProfile = () => {
                                                                     onChange={handleInputChange}
                                                                     size="small"
                                                                     placeholder="Degree"
-                                                                />
+                                                                    select
+                                                                >
+                                                                    {KERALA_DEGREES.map((deg) => (
+                                                                        <MenuItem key={deg} value={deg}>{deg}</MenuItem>
+                                                                    ))}
+                                                                </MuiTextField>
                                                                 <MuiTextField
                                                                     fullWidth
                                                                     name="batch_year"
-                                                                    type="number"
                                                                     value={formData.batch_year}
                                                                     onChange={handleInputChange}
                                                                     size="small"
                                                                     placeholder="Batch Year"
-                                                                />
+                                                                    select
+                                                                >
+                                                                    {Array.from({ length: new Date().getFullYear() - 1950 }, (_, i) => 1950 + i)
+                                                                        .reverse()
+                                                                        .map((yr) => (
+                                                                            <MenuItem key={yr} value={yr}>{yr}</MenuItem>
+                                                                        ))}
+                                                                </MuiTextField>
                                                             </Stack>
                                                             <Stack direction="row" spacing={1.5}>
                                                                 <Button variant="outlined" onClick={() => cancelSection('education')} sx={{ textTransform: 'none' }}>
