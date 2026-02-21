@@ -9,27 +9,19 @@ import {
   Stack,
   Avatar,
   IconButton,
-  InputBase,
-  Badge,
   Menu,
   MenuItem,
   ListItemIcon,
   Divider,
-  Tooltip,
   Button,
   Drawer
 } from '@mui/material';
 import {
-  Search,
-  Notifications,
-  ChatBubbleOutline,
   Logout,
-  Settings,
   Person,
   DashboardOutlined,
   GroupOutlined,
   QuestionAnswerOutlined,
-  TimelineOutlined,
   EventOutlined,
   WorkOutlined,
   Menu as MenuIcon,
@@ -131,7 +123,7 @@ const ANavbar = () => {
                   </g>
                 </svg>
                 {/* Text logo */}
-                <span>GRAD<span style={{ color: primaryBrand }}>NEXUS</span></span>
+                <span>GRAD<span style={{ color: primaryBrand }}>LINK</span></span>
               </Typography>
 
               <Stack
@@ -218,7 +210,7 @@ const ANavbar = () => {
               alignItems="center"
               sx={{ flex: 1, justifyContent: 'flex-end' }}
             >
-             
+
               <Stack direction="row" spacing={{ xs: 0.25, sm: 0.5, md: 1 }} alignItems="center">
                 {/* <Tooltip title="Notifications">
                   <IconButton size="small" sx={{ p: { xs: 0.75, md: 1 }, '&:hover': { bgcolor: 'rgba(99, 102, 241, 0.08)' } }}>
@@ -254,7 +246,7 @@ const ANavbar = () => {
                   >
                     {!user.image && `${user.first_name.charAt(0)}${user.last_name.charAt(0)}`}
                   </Avatar>
-                  
+
                 </Box>
 
                 <Avatar

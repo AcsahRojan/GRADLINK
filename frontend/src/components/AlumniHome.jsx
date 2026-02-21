@@ -15,14 +15,10 @@ import {
 } from '@mui/material';
 import {
   Group,
-  EventAvailable,
-  Star,
-  TrendingUp,
   ArrowForward,
   WorkOutline,
-  Verified
 } from '@mui/icons-material';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import ANavbar from './ANavbar';
 
 const AlumniHome = () => {
@@ -286,7 +282,7 @@ const AlumniHome = () => {
                 <Typography variant="body2" sx={{ opacity: 0.8, fontStyle: 'italic', mb: 2 }}>
                   "The mentorship you provide today builds the engineering leaders of tomorrow."
                 </Typography>
-                <Typography variant="caption" fontWeight="700">— Gradlink Community</Typography>
+                <Typography variant="caption" fontWeight="700">— GradLink Community</Typography>
               </Box>
 
             </Grid>

@@ -314,7 +314,7 @@ Message from your mentor:
 Please make sure to attend the session on time.
 
 Best regards,
-GradNexus Team
+GradLink Team
 """
                 send_mail(
                     subject,

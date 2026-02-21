@@ -7,11 +7,9 @@ import {
   Card,
   CardContent,
   Avatar,
-  Chip,
   Button,
   Grid,
   Divider,
-  Paper,
   IconButton,
   TextField,
   Modal,
@@ -23,16 +21,12 @@ import {
 } from '@mui/material';
 import {
   ArrowBack,
-  Verified,
   Business,
   School,
   WorkHistory,
-  Psychology,
   Handshake,
-  CalendarMonth,
   Close,
   Send,
-  InfoOutlined,
   LinkedIn
 } from '@mui/icons-material';
 import { useParams, useNavigate } from 'react-router-dom';

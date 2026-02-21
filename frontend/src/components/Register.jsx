@@ -58,7 +58,7 @@ const Register = () => {
     willing_to_mentor: false,
   });
 
-  const brandPrimary = '#2563eb';
+  const brandPrimary = '#6366f1';
   const brandDark = '#09090b';
   const brandBg = '#f8fafc';
   const red = '#dc2626';
@@ -148,7 +148,7 @@ const Register = () => {
       await axios.post("http://127.0.0.1:8000/api/signup/", payload);
       setErrors({});
       setMessage("Signup successful ✅ Please proceed to Login.");
-      
+
     } catch (error) {
       if (error.response?.data) {
         setErrors(error.response.data);

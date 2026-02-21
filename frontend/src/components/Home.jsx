@@ -83,7 +83,7 @@ const Home = () => {
 
   const navLinks = [
     { name: 'About Us', id: 'about' },
-    { name: 'Why GradNexus', id: 'why' },
+    { name: 'Why GradLink', id: 'why' },
     { name: 'How it Works', id: 'how' },
     { name: 'Contact', id: 'contact' }
   ];
@@ -130,7 +130,7 @@ const Home = () => {
               </svg>
 
               {/* Text logo */}
-              <span>GRAD<span style={{ color: primaryBrand }}>NEXUS</span></span>
+              <span>GRAD<span style={{ color: primaryBrand }}>LINK</span></span>
 
             </Typography>
 
@@ -236,7 +236,7 @@ const Home = () => {
                 <Button href="/register" variant="contained" size="large" sx={{ bgcolor: 'white', color: deepZinc, py: 2, px: 4, borderRadius: '12px', fontWeight: 700 }}>
                   Get Started
                 </Button>
-               
+
               </Stack>
             </Grid>
           </Grid>
@@ -254,7 +254,7 @@ const Home = () => {
               <Typography variant="h6" fontWeight="800" color={primaryBrand}>Founded by Alumni</Typography>
               <Typography variant="body2" color={mutedZinc} sx={{ mb: 4, lineHeight: 1.8 }}>For the next generation of global talent.</Typography>
               <Typography variant="body1" color={mutedZinc} sx={{ mb: 4, lineHeight: 1.8 }}>
-                GradNexus was born out of a simple observation: the most successful careers aren't just built on hard work, but on the right connections and insider knowledge. We started as a small circle of alumni from top-tier universities helping juniors, and evolved into a global ecosystem.
+                GradLink was born out of a simple observation: the most successful careers aren't just built on hard work, but on the right connections and insider knowledge. We started as a small circle of alumni from top-tier universities helping juniors, and evolved into a global ecosystem.
               </Typography>
               <Stack spacing={2}>
                 {['Global Reach: Connect with mentors in 50+ countries.', 'Quality First: Rigorous vetting for every mentor profile.', 'Impact Driven: 15,000+ successful career transitions.'].map((text, i) => (
@@ -269,12 +269,12 @@ const Home = () => {
         </Container>
       </Box>
 
-      {/* --- WHY CHOOSE GRADNEXUS --- */}
+      {/* --- WHY CHOOSE GRADLINK --- */}
       <Box id="why" sx={{ py: 15, bgcolor: '#fafafa' }}>
         <Container maxWidth="lg">
           <Box sx={{ textAlign: 'center', mb: 10 }}>
             <Typography variant="overline" color={primaryBrand} fontWeight="800" letterSpacing={2}>WHY CHOOSE US</Typography>
-            <Typography variant="h3" fontWeight="800" sx={{ letterSpacing: '-1.5px', mt: 1 }}>Why the best talent chooses GradNexus.</Typography>
+            <Typography variant="h3" fontWeight="800" sx={{ letterSpacing: '-1.5px', mt: 1 }}>Why the best talent chooses GradLink.</Typography>
           </Box>
           <Grid container spacing={4} sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', justifyContent: 'center' }}>
             {[
@@ -331,7 +331,7 @@ const Home = () => {
               <Stack spacing={4}>
                 <Stack direction="row" spacing={3} alignItems="center">
                   <Email sx={{ color: primaryBrand }} />
-                  <Typography variant="body1">hello@gradnexus.com</Typography>
+                  <Typography variant="body1">teams.gradlink@gmail.com</Typography>
                 </Stack>
                 <Stack direction="row" spacing={3} alignItems="center">
                   <Phone sx={{ color: primaryBrand }} />
@@ -368,7 +368,7 @@ const Home = () => {
                     <rect x="30" y="46" width="4" height="4" rx="2" />
                   </g>
                 </svg>
-                <span>GRAD<span style={{ color: primaryBrand }}>NEXUS</span></span>
+                <span>GRAD<span style={{ color: primaryBrand }}>LINK</span></span>
               </Typography>
               <Typography variant="body2" color={mutedZinc} sx={{ lineHeight: 1.8, mb: 4 }}>
                 Building the global bridge between academic potential and professional reality. Join thousands of successful alumni today.
@@ -405,7 +405,7 @@ const Home = () => {
             </Grid>
           </Grid>
           <Box sx={{ mt: 10, pt: 4, borderTop: `1px solid ${mutedZinc}`, display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 2 }}>
-            <Typography variant="caption" color={mutedZinc}>© 2026 GradNexus Inc. All rights reserved.</Typography>
+            <Typography variant="caption" color={mutedZinc}>© 2026 GradLink Inc. All rights reserved.</Typography>
             <Stack direction="row" spacing={3}>
               <Link href="#" variant="caption" color={mutedZinc} underline="none">Privacy Policy</Link>
               <Link href="#" variant="caption" color={mutedZinc} underline="none">Terms of Service</Link>

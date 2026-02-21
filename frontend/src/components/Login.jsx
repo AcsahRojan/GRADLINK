@@ -293,7 +293,7 @@ const Login = () => {
           </Box>
         </Container>
       </Box>
-    </Box>
+    </Box >
   );
 };
 

@@ -136,7 +136,7 @@ const SNavbar = () => {
                   </g>
                 </svg>
                 {/* Text logo */}
-                <span>GRAD<span style={{ color: primaryBrand }}>NEXUS</span></span>
+                <span>GRAD<span style={{ color: primaryBrand }}>LINK</span></span>
               </Typography>
 
               <Stack

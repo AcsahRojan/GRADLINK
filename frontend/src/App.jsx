@@ -31,23 +31,23 @@ const App = () => {
         <Route path='/' element={<Home />} />
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
+        <Route path='/events' element={<Events />} />
         {/* STUDENT PAGES */}
         <Route path="/studenthome" element={<ProtectedRoute allowedRole="student"><StudentHome /></ProtectedRoute>} />
         <Route path='/sprofile' element={<ProtectedRoute allowedRole="student"><SProfile /></ProtectedRoute>} />
         <Route path='/findalumni' element={<ProtectedRoute allowedRole="student"><FindAlumni /></ProtectedRoute>} />
-        <Route path='/events' element={<ProtectedRoute allowedRole="student"><Events /></ProtectedRoute>} />
         <Route path='/mentorshiprequests' element={<ProtectedRoute allowedRole="student"><MentorshipRequests /></ProtectedRoute>} />
         <Route path='/mymentors' element={<ProtectedRoute allowedRole="student"><MyMentors /></ProtectedRoute>} />
         <Route path='/mentorshipactivities/:id' element={<ProtectedRoute allowedRole="student"><MembershipActivities /></ProtectedRoute>} />
         <Route path='/alumniprofile/:id' element={<ProtectedRoute allowedRole="student"><AlumniProfile /></ProtectedRoute>} />
+        <Route path='/jobs' element={<ProtectedRoute allowedRole="student"><JobBoard /></ProtectedRoute>} />
 
         {/* ALUMNI PAGES */}
         <Route path='/alumnihome' element={<ProtectedRoute allowedRole="alumni"><AlumniHome /></ProtectedRoute>} />
         <Route path='/aprofile' element={<ProtectedRoute allowedRole="alumni"><AProfile /></ProtectedRoute>} />
         <Route path='/mymentees' element={<ProtectedRoute allowedRole="alumni"><MyMentees /></ProtectedRoute>} />
         <Route path='/menteeactivities/:id' element={<ProtectedRoute allowedRole="alumni"><MenteeActivities /></ProtectedRoute>} />
-        <Route path='/menteerequests' element={<ProtectedRoute allowedRole="alumni"><MenteeRequests /></ProtectedRoute>} />
-        <Route path='/jobs' element={<ProtectedRoute allowedRole="alumni"><JobBoard /></ProtectedRoute>} />
+        <Route path='/menteerequests' element={<ProtectedRoute allowedRole="alumni"><MenteeRequests /></ProtectedRoute>} />     
         <Route path='/alumnijobs' element={<ProtectedRoute allowedRole="alumni"><AlumniJobs /></ProtectedRoute>} />
       </Routes>
     </>
