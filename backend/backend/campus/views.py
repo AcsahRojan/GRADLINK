@@ -355,11 +355,23 @@ class JobViewSet(viewsets.ModelViewSet):
         serializer.save(posted_by=self.request.user)
 
     def get_queryset(self):
+        user = self.request.user
         queryset = Job.objects.all().order_by('-posted_at')
+        
         my_jobs = self.request.query_params.get('my_jobs')
         if my_jobs == 'true':
-            queryset = queryset.filter(posted_by=self.request.user)
+            queryset = queryset.filter(posted_by=user)
+        elif user.role == 'student':
+            # Get alumni IDs who have an accepted mentorship request with this student
+            accepted_mentors = MentorshipRequest.objects.filter(
+                student=user,
+                status='accepted'
+            ).values_list('alumni', flat=True)
+            
+            queryset = queryset.filter(posted_by__id__in=accepted_mentors)
+        
         return queryset
+
 
 
 class ReferralRequestViewSet(viewsets.ModelViewSet):
