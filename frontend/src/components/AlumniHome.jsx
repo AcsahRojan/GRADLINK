@@ -128,7 +128,7 @@ const AlumniHome = () => {
   return (
     <>
       <ANavbar />
-      <Box sx={{ bgcolor: '#f8fafc' }}>
+      <Box >
 
         <Container maxWidth="xl" sx={{ pt: 10 }}>
           <Grid container spacing={4}>

@@ -118,12 +118,6 @@ const MyMentees = () => {
                 <Typography variant="caption" fontWeight="700" color={mutedZinc}>TOTAL MENTEES</Typography>
               </Paper>
             </Grid>
-            <Grid item xs={6} md={3}>
-              <Paper elevation={0} sx={{ p: 2, borderRadius: '16px', border: `1px solid ${glassBorder}`, textAlign: 'center' }}>
-                <Typography variant="h5" fontWeight="900" color={deepZinc}>2</Typography>
-                <Typography variant="caption" fontWeight="700" color={mutedZinc}>ACTIVE NOW</Typography>
-              </Paper>
-            </Grid>
           </Grid>
 
           {/* Mentees Grid */}
@@ -226,11 +220,11 @@ const MyMentees = () => {
             ))}
 
             {filteredMentees.length === 0 && (
-              <Grid item xs={12}>
+              <Grid item xs={12} >
                 <Box sx={{ textAlign: 'center', py: 10 }}>
                   <AccountCircleOutlined sx={{ fontSize: 60, color: glassBorder, mb: 2 }} />
                   <Typography variant="h6" fontWeight="800" color={mutedZinc}>No mentees found</Typography>
-                  <Typography variant="body2" color={mutedZinc}>Try adjusting your search or filters.</Typography>
+                  <Typography variant="body2" color={mutedZinc}>You haven't accepted any mentorship requests yet.</Typography>
                 </Box>
               </Grid>
             )}
