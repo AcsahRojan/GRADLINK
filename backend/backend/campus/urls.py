@@ -1,7 +1,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import (
-    signup, login_view, update_profile, logout_view, 
+    signup, login_view, update_profile, logout_view, delete_profile,
     EventViewSet, AlumniViewSet, MentorshipTypeViewSet,
     MentorshipRequestViewSet, MentorshipActivityViewSet,
     JobViewSet, ReferralRequestViewSet, alumni_dashboard_stats
@@ -21,6 +21,7 @@ urlpatterns = [
     path('login/', login_view),
     path('profile/update/', update_profile),
     path('logout/', logout_view),
+    path('delete-profile/', delete_profile),
     path('alumni/dashboard-stats/', alumni_dashboard_stats),
     path('', include(router.urls)),       
 ]

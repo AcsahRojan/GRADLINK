@@ -1,4 +1,5 @@
 import React, { useState, useRef, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {
   Box,
@@ -36,6 +37,7 @@ import {
 
 
 const Register = () => {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [role, setRole] = useState('student');
   const [errors, setErrors] = useState({});
@@ -147,7 +149,10 @@ const Register = () => {
     try {
       await axios.post("http://127.0.0.1:8000/api/signup/", payload);
       setErrors({});
-      setMessage("Signup successful ✅ Please proceed to Login.");
+      setMessage("Signup successful ✅ Redirecting to Login...");
+      setTimeout(() => {
+        navigate('/login');
+      }, 2000);
 
     } catch (error) {
       if (error.response?.data) {

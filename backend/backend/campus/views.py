@@ -109,6 +109,17 @@ def logout_view(request):
     )
 
 
+# =========================
+# DELETE PROFILE API
+# =========================
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def delete_profile(request):
+    user = request.user
+    user.delete()
+    return Response({"message": "User deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+
+
 from rest_framework import viewsets
 from .serializers import SignupSerializer, UserSerializer, UserUpdateSerializer, EventSerializer, AlumniCardSerializer
 from .models import User, Event

@@ -6,7 +6,7 @@ import {
     FormControl, InputLabel, Select, MenuItem, OutlinedInput,
 } from '@mui/material';
 import {
-    Edit, CameraAlt, LinkedIn, Email, Phone, School, 
+    Edit, CameraAlt, LinkedIn, Email, Phone, School,
     Close
 } from '@mui/icons-material';
 import ANavbar from './ANavbar';
@@ -134,6 +134,19 @@ const AProfile = () => {
         }
     };
 
+    const handleDeleteProfile = async () => {
+        if (window.confirm("Are you sure you want to delete your profile? This action is permanent and cannot be undone.")) {
+            try {
+                await api.delete('delete-profile/');
+                localStorage.clear();
+                navigate('/login');
+            } catch (error) {
+                console.error("Deletion failed", error);
+                alert("Failed to delete profile. Please try again.");
+            }
+        }
+    };
+
     const cancelEdit = () => {
         updateFormData(user);
         setEditing({ contacts: false, bio: false, professional: false, education: false });
@@ -249,7 +262,7 @@ const AProfile = () => {
                                         fontSize: { xs: '1rem', md: '1.25rem' }
                                     }}>
                                         {user.first_name} {user.last_name}
-                                       
+
                                     </Typography>
 
                                     <Typography variant="body2" color={mutedZinc} fontWeight="500" sx={{ fontSize: { xs: '0.8rem', md: '0.9rem' }, mt: 0.5 }}>
@@ -303,412 +316,433 @@ const AProfile = () => {
                                             </Box>
                                         </Box>
                                     </Stack>
+
+                                    <Divider sx={{ my: 3 }} />
+                                    <Button
+                                        fullWidth
+                                        variant="outlined"
+                                        color="error"
+                                        onClick={handleDeleteProfile}
+                                        sx={{
+                                            mt: 1,
+                                            borderRadius: '12px',
+                                            textTransform: 'none',
+                                            fontWeight: 600,
+                                            borderColor: 'rgba(239, 68, 68, 0.2)',
+                                            '&:hover': {
+                                                bgcolor: 'rgba(239, 68, 68, 0.05)',
+                                                borderColor: 'rgb(239, 68, 68)'
+                                            }
+                                        }}
+                                    >
+                                        Delete Profile
+                                    </Button>
                                 </Box>
                             </Paper>
                         </Grid>
 
                         {/* Right Content */}
-                        <Grid item xs={12} md={7} lg={8}>                       
-                                <Stack spacing={{ xs: 2.5, md: 4 }}>
-                                    {/* Contact Info Card */}
-                                    <Paper elevation={0} sx={{
-                                        p: { xs: 2.5, md: 4 },
-                                        borderRadius: { xs: '16px', md: '24px' },
-                                        border: '1px solid rgba(228, 228, 231, 0.6)',
-                                        position: 'relative',
-                                        minHeight: editing.contacts ? 'auto' : '200px'
-                                    }}>
-                                        <Stack direction="row" justifyContent="space-between" alignItems="center" mb={3}>
-                                            <Typography variant="h6" fontWeight="800" sx={{ fontSize: { xs: '1rem', md: '1.1rem' } }}>
-                                                Contact Information
-                                            </Typography>
-                                            <IconButton
-                                                size="small"
-                                                onClick={() => setEditing(prev => ({ ...prev, contacts: !prev.contacts }))}
-                                            >
-                                                {editing.contacts ? <Close fontSize="small" /> : <Edit fontSize="small" />}
-                                            </IconButton>
-                                        </Stack>
-                                        <Grid container spacing={2} direction="column">
-                                            <Grid item xs={12} sm={6}>
-                                                <Typography variant="caption" fontWeight="600" color={mutedZinc} display="block" sx={{ mb: 0.5 }}>FIRST NAME</Typography>
-                                                {editing.contacts ? (
-                                                    <MuiTextField
-                                                        fullWidth
-                                                        name="first_name"
-                                                        value={formData.first_name}
-                                                        onChange={handleInputChange}
-                                                        size="small"
-                                                    />
-                                                ) : (
-                                                    <Typography variant="body2" sx={{ fontSize: { xs: '0.9rem', md: '1rem' } }}>{user.first_name}</Typography>
-                                                )}
-                                            </Grid>
-                                            <Grid item xs={12} sm={6}>
-                                                <Typography variant="caption" fontWeight="600" color={mutedZinc} display="block" sx={{ mb: 0.5 }}>LAST NAME</Typography>
-                                                {editing.contacts ? (
-                                                    <MuiTextField
-                                                        fullWidth
-                                                        name="last_name"
-                                                        value={formData.last_name}
-                                                        onChange={handleInputChange}
-                                                        size="small"
-                                                    />
-                                                ) : (
-                                                    <Typography variant="body2" sx={{ fontSize: { xs: '0.9rem', md: '1rem' } }}>{user.last_name}</Typography>
-                                                )}
-                                            </Grid>
-                                            <Grid item xs={12}>
-                                                <Typography variant="caption" fontWeight="600" color={mutedZinc} display="block" sx={{ mb: 0.5 }}>EMAIL</Typography>
-                                                {editing.contacts ? (
-                                                    <MuiTextField
-                                                        fullWidth
-                                                        name="email"
-                                                        value={formData.email}
-                                                        onChange={handleInputChange}
-                                                        size="small"
-                                                    />
-                                                ) : (
-                                                    <Typography variant="body2" sx={{ fontSize: { xs: '0.9rem', md: '1rem' } }}>{user.email}</Typography>
-                                                )}
-                                            </Grid>
-                                            <Grid item xs={12}>
-                                                <Typography variant="caption" fontWeight="600" color={mutedZinc} display="block" sx={{ mb: 0.5 }}>PHONE</Typography>
-                                                {editing.contacts ? (
-                                                    <MuiTextField
-                                                        fullWidth
-                                                        name="phone"
-                                                        value={formData.phone}
-                                                        onChange={handleInputChange}
-                                                        size="small"
-                                                    />
-                                                ) : (
-                                                    <Typography variant="body2" sx={{ fontSize: { xs: '0.9rem', md: '1rem' } }}>{user.phone || 'Not provided'}</Typography>
-                                                )}
-                                            </Grid>
-                                            <Grid item xs={12}>
-                                                <Typography variant="caption" fontWeight="600" color={mutedZinc} display="block" sx={{ mb: 0.5 }}>LINKEDIN URL</Typography>
-                                                {editing.contacts ? (
-                                                    <MuiTextField
-                                                        fullWidth
-                                                        name="linkedin_url"
-                                                        value={formData.linkedin_url}
-                                                        onChange={handleInputChange}
-                                                        size="small"
-                                                    />
-                                                ) : (
-                                                    <Typography variant="body2" sx={{ fontSize: { xs: '0.9rem', md: '1rem' } }}>{user.alumni_profile?.linkedin_url || 'Not provided'}</Typography>
-                                                )}
-                                            </Grid>
-                                            {editing.contacts && (
-                                                <Grid item xs={12}>
-                                                    <Stack direction="row" spacing={1.5} sx={{ mt: 1 }}>
-                                                        <Button variant="outlined" onClick={() => cancelSection('contacts')} sx={{ textTransform: 'none' }}>
-                                                            Cancel
-                                                        </Button>
-                                                        <Button variant="contained" onClick={() => saveSection('contacts')} sx={{ bgcolor: deepZinc, textTransform: 'none' }}>
-                                                            Save
-                                                        </Button>
-                                                    </Stack>
-                                                </Grid>
-                                            )}
-                                        </Grid>
-                                    </Paper>
-
-                                    {/* Bio Section */}
-                                    <Paper elevation={0} sx={{
-                                        p: { xs: 2.5, md: 4 },
-                                        borderRadius: { xs: '16px', md: '24px' },
-                                        border: '1px solid rgba(228, 228, 231, 0.6)',
-                                        position: 'relative',
-                                        minHeight: editing.bio ? 'auto' : '120px'
-                                    }}>
-                                        <Stack direction="row" justifyContent="space-between" alignItems="center" mb={2}>
-                                            <Typography variant="h6" fontWeight="800" sx={{ fontSize: { xs: '1rem', md: '1.1rem' } }}>
-                                                Note to Mentees
-                                            </Typography>
-                                            <IconButton
-                                                size="small"
-                                                onClick={() => setEditing(prev => ({ ...prev, bio: !prev.bio }))}
-                                            >
-                                                {editing.bio ? <Close fontSize="small" /> : <Edit fontSize="small" />}
-                                            </IconButton>
-                                        </Stack>
-                                        {editing.bio ? (
-                                            <>
+                        <Grid item xs={12} md={7} lg={8}>
+                            <Stack spacing={{ xs: 2.5, md: 4 }}>
+                                {/* Contact Info Card */}
+                                <Paper elevation={0} sx={{
+                                    p: { xs: 2.5, md: 4 },
+                                    borderRadius: { xs: '16px', md: '24px' },
+                                    border: '1px solid rgba(228, 228, 231, 0.6)',
+                                    position: 'relative',
+                                    minHeight: editing.contacts ? 'auto' : '200px'
+                                }}>
+                                    <Stack direction="row" justifyContent="space-between" alignItems="center" mb={3}>
+                                        <Typography variant="h6" fontWeight="800" sx={{ fontSize: { xs: '1rem', md: '1.1rem' } }}>
+                                            Contact Information
+                                        </Typography>
+                                        <IconButton
+                                            size="small"
+                                            onClick={() => setEditing(prev => ({ ...prev, contacts: !prev.contacts }))}
+                                        >
+                                            {editing.contacts ? <Close fontSize="small" /> : <Edit fontSize="small" />}
+                                        </IconButton>
+                                    </Stack>
+                                    <Grid container spacing={2} direction="column">
+                                        <Grid item xs={12} sm={6}>
+                                            <Typography variant="caption" fontWeight="600" color={mutedZinc} display="block" sx={{ mb: 0.5 }}>FIRST NAME</Typography>
+                                            {editing.contacts ? (
                                                 <MuiTextField
                                                     fullWidth
-                                                    multiline
-                                                    rows={4}
-                                                    name="bio"
-                                                    value={formData.bio}
+                                                    name="first_name"
+                                                    value={formData.first_name}
                                                     onChange={handleInputChange}
                                                     size="small"
-                                                    sx={{ mb: 2 }}
                                                 />
-                                                <Stack direction="row" spacing={1.5}>
-                                                    <Button variant="outlined" onClick={() => cancelSection('bio')} sx={{ textTransform: 'none' }}>
+                                            ) : (
+                                                <Typography variant="body2" sx={{ fontSize: { xs: '0.9rem', md: '1rem' } }}>{user.first_name}</Typography>
+                                            )}
+                                        </Grid>
+                                        <Grid item xs={12} sm={6}>
+                                            <Typography variant="caption" fontWeight="600" color={mutedZinc} display="block" sx={{ mb: 0.5 }}>LAST NAME</Typography>
+                                            {editing.contacts ? (
+                                                <MuiTextField
+                                                    fullWidth
+                                                    name="last_name"
+                                                    value={formData.last_name}
+                                                    onChange={handleInputChange}
+                                                    size="small"
+                                                />
+                                            ) : (
+                                                <Typography variant="body2" sx={{ fontSize: { xs: '0.9rem', md: '1rem' } }}>{user.last_name}</Typography>
+                                            )}
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <Typography variant="caption" fontWeight="600" color={mutedZinc} display="block" sx={{ mb: 0.5 }}>EMAIL</Typography>
+                                            {editing.contacts ? (
+                                                <MuiTextField
+                                                    fullWidth
+                                                    name="email"
+                                                    value={formData.email}
+                                                    onChange={handleInputChange}
+                                                    size="small"
+                                                />
+                                            ) : (
+                                                <Typography variant="body2" sx={{ fontSize: { xs: '0.9rem', md: '1rem' } }}>{user.email}</Typography>
+                                            )}
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <Typography variant="caption" fontWeight="600" color={mutedZinc} display="block" sx={{ mb: 0.5 }}>PHONE</Typography>
+                                            {editing.contacts ? (
+                                                <MuiTextField
+                                                    fullWidth
+                                                    name="phone"
+                                                    value={formData.phone}
+                                                    onChange={handleInputChange}
+                                                    size="small"
+                                                />
+                                            ) : (
+                                                <Typography variant="body2" sx={{ fontSize: { xs: '0.9rem', md: '1rem' } }}>{user.phone || 'Not provided'}</Typography>
+                                            )}
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <Typography variant="caption" fontWeight="600" color={mutedZinc} display="block" sx={{ mb: 0.5 }}>LINKEDIN URL</Typography>
+                                            {editing.contacts ? (
+                                                <MuiTextField
+                                                    fullWidth
+                                                    name="linkedin_url"
+                                                    value={formData.linkedin_url}
+                                                    onChange={handleInputChange}
+                                                    size="small"
+                                                />
+                                            ) : (
+                                                <Typography variant="body2" sx={{ fontSize: { xs: '0.9rem', md: '1rem' } }}>{user.alumni_profile?.linkedin_url || 'Not provided'}</Typography>
+                                            )}
+                                        </Grid>
+                                        {editing.contacts && (
+                                            <Grid item xs={12}>
+                                                <Stack direction="row" spacing={1.5} sx={{ mt: 1 }}>
+                                                    <Button variant="outlined" onClick={() => cancelSection('contacts')} sx={{ textTransform: 'none' }}>
                                                         Cancel
                                                     </Button>
-                                                    <Button variant="contained" onClick={() => saveSection('bio')} sx={{ bgcolor: deepZinc, textTransform: 'none' }}>
+                                                    <Button variant="contained" onClick={() => saveSection('contacts')} sx={{ bgcolor: deepZinc, textTransform: 'none' }}>
                                                         Save
                                                     </Button>
                                                 </Stack>
-                                            </>
-                                        ) : (
-                                            <Typography variant="body2" color="#4b5563" sx={{ lineHeight: 1.8, fontSize: { xs: '0.85rem', md: '0.95rem' } }}>
-                                                {user.bio || "No biography available."}
-                                            </Typography>
+                                            </Grid>
                                         )}
-                                    </Paper>
+                                    </Grid>
+                                </Paper>
 
-                                    {/* Professional Section */}
-                                    <Paper elevation={0} sx={{
-                                        p: { xs: 2.5, md: 4 },
-                                        borderRadius: { xs: '16px', md: '24px' },
-                                        border: '1px solid rgba(228, 228, 231, 0.6)',
-                                        position: 'relative',
-                                        minHeight: editing.professional ? 'auto' : '250px'
-                                    }}>
-                                        <Stack direction="row" justifyContent="space-between" alignItems="center" mb={3}>
-                                            <Typography variant="h6" fontWeight="800" sx={{ fontSize: { xs: '1rem', md: '1.1rem' } }}>
-                                                Professional Details
-                                            </Typography>
-                                            <IconButton
+                                {/* Bio Section */}
+                                <Paper elevation={0} sx={{
+                                    p: { xs: 2.5, md: 4 },
+                                    borderRadius: { xs: '16px', md: '24px' },
+                                    border: '1px solid rgba(228, 228, 231, 0.6)',
+                                    position: 'relative',
+                                    minHeight: editing.bio ? 'auto' : '120px'
+                                }}>
+                                    <Stack direction="row" justifyContent="space-between" alignItems="center" mb={2}>
+                                        <Typography variant="h6" fontWeight="800" sx={{ fontSize: { xs: '1rem', md: '1.1rem' } }}>
+                                            Note to Mentees
+                                        </Typography>
+                                        <IconButton
+                                            size="small"
+                                            onClick={() => setEditing(prev => ({ ...prev, bio: !prev.bio }))}
+                                        >
+                                            {editing.bio ? <Close fontSize="small" /> : <Edit fontSize="small" />}
+                                        </IconButton>
+                                    </Stack>
+                                    {editing.bio ? (
+                                        <>
+                                            <MuiTextField
+                                                fullWidth
+                                                multiline
+                                                rows={4}
+                                                name="bio"
+                                                value={formData.bio}
+                                                onChange={handleInputChange}
                                                 size="small"
-                                                onClick={() => setEditing(prev => ({ ...prev, professional: !prev.professional }))}
-                                            >
-                                                {editing.professional ? <Close fontSize="small" /> : <Edit fontSize="small" />}
-                                            </IconButton>
-                                        </Stack>
-                                        <Grid container spacing={{ xs: 2, md: 3 }} direction="column">
-                                            <Grid item xs={12} sm={6}>
-                                                <Typography variant="caption" fontWeight="bold" color={mutedZinc} sx={{ textTransform: 'uppercase', display: 'block', mb: 0.5 }}>
-                                                    Industry
+                                                sx={{ mb: 2 }}
+                                            />
+                                            <Stack direction="row" spacing={1.5}>
+                                                <Button variant="outlined" onClick={() => cancelSection('bio')} sx={{ textTransform: 'none' }}>
+                                                    Cancel
+                                                </Button>
+                                                <Button variant="contained" onClick={() => saveSection('bio')} sx={{ bgcolor: deepZinc, textTransform: 'none' }}>
+                                                    Save
+                                                </Button>
+                                            </Stack>
+                                        </>
+                                    ) : (
+                                        <Typography variant="body2" color="#4b5563" sx={{ lineHeight: 1.8, fontSize: { xs: '0.85rem', md: '0.95rem' } }}>
+                                            {user.bio || "No biography available."}
+                                        </Typography>
+                                    )}
+                                </Paper>
+
+                                {/* Professional Section */}
+                                <Paper elevation={0} sx={{
+                                    p: { xs: 2.5, md: 4 },
+                                    borderRadius: { xs: '16px', md: '24px' },
+                                    border: '1px solid rgba(228, 228, 231, 0.6)',
+                                    position: 'relative',
+                                    minHeight: editing.professional ? 'auto' : '250px'
+                                }}>
+                                    <Stack direction="row" justifyContent="space-between" alignItems="center" mb={3}>
+                                        <Typography variant="h6" fontWeight="800" sx={{ fontSize: { xs: '1rem', md: '1.1rem' } }}>
+                                            Professional Details
+                                        </Typography>
+                                        <IconButton
+                                            size="small"
+                                            onClick={() => setEditing(prev => ({ ...prev, professional: !prev.professional }))}
+                                        >
+                                            {editing.professional ? <Close fontSize="small" /> : <Edit fontSize="small" />}
+                                        </IconButton>
+                                    </Stack>
+                                    <Grid container spacing={{ xs: 2, md: 3 }} direction="column">
+                                        <Grid item xs={12} sm={6}>
+                                            <Typography variant="caption" fontWeight="bold" color={mutedZinc} sx={{ textTransform: 'uppercase', display: 'block', mb: 0.5 }}>
+                                                Industry
+                                            </Typography>
+                                            {editing.professional ? (
+                                                <MuiTextField
+                                                    fullWidth
+                                                    name="industry"
+                                                    value={formData.industry}
+                                                    onChange={handleInputChange}
+                                                    size="small"
+                                                />
+                                            ) : (
+                                                <Typography variant="body2" sx={{ fontSize: { xs: '0.9rem', md: '1rem' } }}>
+                                                    {user.alumni_profile?.industry || "Not specified"}
                                                 </Typography>
-                                                {editing.professional ? (
-                                                    <MuiTextField
-                                                        fullWidth
-                                                        name="industry"
-                                                        value={formData.industry}
-                                                        onChange={handleInputChange}
-                                                        size="small"
-                                                    />
-                                                ) : (
-                                                    <Typography variant="body2" sx={{ fontSize: { xs: '0.9rem', md: '1rem' } }}>
-                                                        {user.alumni_profile?.industry || "Not specified"}
-                                                    </Typography>
-                                                )}
-                                            </Grid>
-                                            <Grid item xs={12} sm={6}>
-                                                <Typography variant="caption" fontWeight="bold" color={mutedZinc} sx={{ textTransform: 'uppercase', display: 'block', mb: 0.5 }}>
-                                                    Experience
-                                                </Typography>
-                                                {editing.professional ? (
-                                                    <MuiTextField
-                                                        fullWidth
-                                                        name="years_of_experience"
-                                                        type="number"
-                                                        value={formData.years_of_experience}
-                                                        onChange={handleInputChange}
-                                                        size="small"
-                                                    />
-                                                ) : (
-                                                    <Typography variant="body2" sx={{ fontSize: { xs: '0.9rem', md: '1rem' } }}>
-                                                        {user.alumni_profile?.years_of_experience || "0"} Years
-                                                    </Typography>
-                                                )}
-                                            </Grid>
-                                            {editing.professional && (
-                                                <>
-                                                    <Grid item xs={12}>
-                                                        <FormControl fullWidth size="small">
-                                                            <InputLabel>Available For Mentorship</InputLabel>
-                                                            <Select
-                                                                multiple
-                                                                value={formData.available_for}
-                                                                onChange={(e) => setFormData(prev => ({ ...prev, available_for: e.target.value }))}
-                                                                input={<OutlinedInput label="Available For Mentorship" />}
-                                                                renderValue={(selected) => (
-                                                                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                                                                        {selected.map((value) => (
-                                                                            <Chip key={value} label={mentorshipTypes.find(t => t.id === value)?.name || value} size="small" />
-                                                                        ))}
-                                                                    </Box>
-                                                                )}
-                                                            >
-                                                                {mentorshipTypes.map((type) => (
-                                                                    <MenuItem key={type.id} value={type.id}>{type.name}</MenuItem>
-                                                                ))}
-                                                            </Select>
-                                                        </FormControl>
-                                                    </Grid>
-                                                    <Grid item xs={12}>
-                                                        <Box sx={{
-                                                            p: { xs: 1.5, md: 2 },
-                                                            bgcolor: '#f8fafc',
-                                                            borderRadius: '12px',
-                                                            border: '1px solid rgba(228, 228, 231, 0.6)',
-                                                            display: 'flex',
-                                                            justifyContent: 'space-between',
-                                                            alignItems: 'center'
-                                                        }}>
-                                                            <Typography variant="body2" fontWeight="600" sx={{ fontSize: { xs: '0.85rem', md: '0.9rem' } }}>
-                                                                Willing to mentor
-                                                            </Typography>
-                                                            <Switch
-                                                                checked={formData.willing_to_mentor}
-                                                                onChange={handleInputChange}
-                                                                name="willing_to_mentor"
-                                                                size="small"
-                                                            />
-                                                        </Box>
-                                                    </Grid>
-                                                    <Grid item xs={12}>
-                                                        <Stack direction="row" spacing={1.5}>
-                                                            <Button variant="outlined" onClick={() => cancelSection('professional')} sx={{ textTransform: 'none' }}>
-                                                                Cancel
-                                                            </Button>
-                                                            <Button variant="contained" onClick={() => saveSection('professional')} sx={{ bgcolor: deepZinc, textTransform: 'none' }}>
-                                                                Save
-                                                            </Button>
-                                                        </Stack>
-                                                    </Grid>
-                                                </>
                                             )}
-                                            {!editing.professional && (
+                                        </Grid>
+                                        <Grid item xs={12} sm={6}>
+                                            <Typography variant="caption" fontWeight="bold" color={mutedZinc} sx={{ textTransform: 'uppercase', display: 'block', mb: 0.5 }}>
+                                                Experience
+                                            </Typography>
+                                            {editing.professional ? (
+                                                <MuiTextField
+                                                    fullWidth
+                                                    name="years_of_experience"
+                                                    type="number"
+                                                    value={formData.years_of_experience}
+                                                    onChange={handleInputChange}
+                                                    size="small"
+                                                />
+                                            ) : (
+                                                <Typography variant="body2" sx={{ fontSize: { xs: '0.9rem', md: '1rem' } }}>
+                                                    {user.alumni_profile?.years_of_experience || "0"} Years
+                                                </Typography>
+                                            )}
+                                        </Grid>
+                                        {editing.professional && (
+                                            <>
+                                                <Grid item xs={12}>
+                                                    <FormControl fullWidth size="small">
+                                                        <InputLabel>Available For Mentorship</InputLabel>
+                                                        <Select
+                                                            multiple
+                                                            value={formData.available_for}
+                                                            onChange={(e) => setFormData(prev => ({ ...prev, available_for: e.target.value }))}
+                                                            input={<OutlinedInput label="Available For Mentorship" />}
+                                                            renderValue={(selected) => (
+                                                                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                                                    {selected.map((value) => (
+                                                                        <Chip key={value} label={mentorshipTypes.find(t => t.id === value)?.name || value} size="small" />
+                                                                    ))}
+                                                                </Box>
+                                                            )}
+                                                        >
+                                                            {mentorshipTypes.map((type) => (
+                                                                <MenuItem key={type.id} value={type.id}>{type.name}</MenuItem>
+                                                            ))}
+                                                        </Select>
+                                                    </FormControl>
+                                                </Grid>
                                                 <Grid item xs={12}>
                                                     <Box sx={{
                                                         p: { xs: 1.5, md: 2 },
                                                         bgcolor: '#f8fafc',
                                                         borderRadius: '12px',
-                                                        border: '1px solid rgba(228, 228, 231, 0.6)'
+                                                        border: '1px solid rgba(228, 228, 231, 0.6)',
+                                                        display: 'flex',
+                                                        justifyContent: 'space-between',
+                                                        alignItems: 'center'
                                                     }}>
-                                                        <Typography variant="caption" fontWeight="600" color={mutedZinc} display="block" sx={{ textTransform: 'uppercase', mb: 1 }}>
-                                                            Available For
+                                                        <Typography variant="body2" fontWeight="600" sx={{ fontSize: { xs: '0.85rem', md: '0.9rem' } }}>
+                                                            Willing to mentor
                                                         </Typography>
-                                                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                                                            {user.alumni_profile?.available_for?.length > 0 ? (
-                                                                user.alumni_profile.available_for.map((item) => (
-                                                                    <Chip
-                                                                        key={item.id}
-                                                                        label={item.name}
-                                                                        size="small"
-                                                                        sx={{
-                                                                            fontWeight: 600,
-                                                                            bgcolor: `${primaryBrand}10`,
-                                                                            color: primaryBrand
-                                                                        }}
-                                                                    />
-                                                                ))
-                                                            ) : (
-                                                                <Typography variant="caption" color={mutedZinc}>None selected</Typography>
-                                                            )}
-                                                        </Box>
+                                                        <Switch
+                                                            checked={formData.willing_to_mentor}
+                                                            onChange={handleInputChange}
+                                                            name="willing_to_mentor"
+                                                            size="small"
+                                                        />
                                                     </Box>
                                                 </Grid>
-                                            )}
-                                        </Grid>
-                                    </Paper>
-
-                                    {/* Education Section */}
-                                    <Paper elevation={0} sx={{
-                                        p: { xs: 2.5, md: 4 },
-                                        borderRadius: { xs: '16px', md: '24px' },
-                                        border: '1px solid rgba(228, 228, 231, 0.6)',
-                                        position: 'relative',
-                                        minHeight: editing.education ? 'auto' : '150px'
-                                    }}>
-                                        <Stack direction="row" justifyContent="space-between" alignItems="center" mb={3}>
-                                            <Typography variant="h6" fontWeight="800" sx={{ fontSize: { xs: '1rem', md: '1.1rem' } }}>
-                                                Education
-                                            </Typography>
-                                            <IconButton
-                                                size="small"
-                                                onClick={() => setEditing(prev => ({ ...prev, education: !prev.education }))}
-                                            >
-                                                {editing.education ? <Close fontSize="small" /> : <Edit fontSize="small" />}
-                                            </IconButton>
-                                        </Stack>
-                                        <Stack spacing={2}>
-                                            <Box sx={{ display: 'flex', gap: 2 }}>
-                                                <Box sx={{ p: 1.5, bgcolor: '#f1f1f4', borderRadius: '12px', display: 'flex', alignItems: 'center' }}>
-                                                    <School sx={{ color: primaryBrand, fontSize: { xs: '1.3rem', md: '1.5rem' } }} />
+                                                <Grid item xs={12}>
+                                                    <Stack direction="row" spacing={1.5}>
+                                                        <Button variant="outlined" onClick={() => cancelSection('professional')} sx={{ textTransform: 'none' }}>
+                                                            Cancel
+                                                        </Button>
+                                                        <Button variant="contained" onClick={() => saveSection('professional')} sx={{ bgcolor: deepZinc, textTransform: 'none' }}>
+                                                            Save
+                                                        </Button>
+                                                    </Stack>
+                                                </Grid>
+                                            </>
+                                        )}
+                                        {!editing.professional && (
+                                            <Grid item xs={12}>
+                                                <Box sx={{
+                                                    p: { xs: 1.5, md: 2 },
+                                                    bgcolor: '#f8fafc',
+                                                    borderRadius: '12px',
+                                                    border: '1px solid rgba(228, 228, 231, 0.6)'
+                                                }}>
+                                                    <Typography variant="caption" fontWeight="600" color={mutedZinc} display="block" sx={{ textTransform: 'uppercase', mb: 1 }}>
+                                                        Available For
+                                                    </Typography>
+                                                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                                                        {user.alumni_profile?.available_for?.length > 0 ? (
+                                                            user.alumni_profile.available_for.map((item) => (
+                                                                <Chip
+                                                                    key={item.id}
+                                                                    label={item.name}
+                                                                    size="small"
+                                                                    sx={{
+                                                                        fontWeight: 600,
+                                                                        bgcolor: `${primaryBrand}10`,
+                                                                        color: primaryBrand
+                                                                    }}
+                                                                />
+                                                            ))
+                                                        ) : (
+                                                            <Typography variant="caption" color={mutedZinc}>None selected</Typography>
+                                                        )}
+                                                    </Box>
                                                 </Box>
-                                                <Box sx={{ flex: 1 }}>
-                                                    {editing.education ? (
-                                                        <>
+                                            </Grid>
+                                        )}
+                                    </Grid>
+                                </Paper>
+
+                                {/* Education Section */}
+                                <Paper elevation={0} sx={{
+                                    p: { xs: 2.5, md: 4 },
+                                    borderRadius: { xs: '16px', md: '24px' },
+                                    border: '1px solid rgba(228, 228, 231, 0.6)',
+                                    position: 'relative',
+                                    minHeight: editing.education ? 'auto' : '150px'
+                                }}>
+                                    <Stack direction="row" justifyContent="space-between" alignItems="center" mb={3}>
+                                        <Typography variant="h6" fontWeight="800" sx={{ fontSize: { xs: '1rem', md: '1.1rem' } }}>
+                                            Education
+                                        </Typography>
+                                        <IconButton
+                                            size="small"
+                                            onClick={() => setEditing(prev => ({ ...prev, education: !prev.education }))}
+                                        >
+                                            {editing.education ? <Close fontSize="small" /> : <Edit fontSize="small" />}
+                                        </IconButton>
+                                    </Stack>
+                                    <Stack spacing={2}>
+                                        <Box sx={{ display: 'flex', gap: 2 }}>
+                                            <Box sx={{ p: 1.5, bgcolor: '#f1f1f4', borderRadius: '12px', display: 'flex', alignItems: 'center' }}>
+                                                <School sx={{ color: primaryBrand, fontSize: { xs: '1.3rem', md: '1.5rem' } }} />
+                                            </Box>
+                                            <Box sx={{ flex: 1 }}>
+                                                {editing.education ? (
+                                                    <>
+                                                        <MuiTextField
+                                                            fullWidth
+                                                            name="college"
+                                                            value={formData.college}
+                                                            onChange={handleInputChange}
+                                                            size="small"
+                                                            sx={{ mb: 1.5 }}
+                                                            placeholder="College"
+                                                            select
+                                                        >
+                                                            {KERALA_COLLEGES.map((col) => (
+                                                                <MenuItem key={col} value={col}>{col}</MenuItem>
+                                                            ))}
+                                                        </MuiTextField>
+                                                        <Stack direction="column" spacing={1.5} sx={{ mb: 2 }}>
                                                             <MuiTextField
                                                                 fullWidth
-                                                                name="college"
-                                                                value={formData.college}
+                                                                name="degree"
+                                                                value={formData.degree}
                                                                 onChange={handleInputChange}
                                                                 size="small"
-                                                                sx={{ mb: 1.5 }}
-                                                                placeholder="College"
+                                                                placeholder="Degree"
                                                                 select
                                                             >
-                                                                {KERALA_COLLEGES.map((col) => (
-                                                                    <MenuItem key={col} value={col}>{col}</MenuItem>
+                                                                {KERALA_DEGREES.map((deg) => (
+                                                                    <MenuItem key={deg} value={deg}>{deg}</MenuItem>
                                                                 ))}
                                                             </MuiTextField>
-                                                            <Stack direction="column" spacing={1.5} sx={{ mb: 2 }}>
-                                                                <MuiTextField
-                                                                    fullWidth
-                                                                    name="degree"
-                                                                    value={formData.degree}
-                                                                    onChange={handleInputChange}
-                                                                    size="small"
-                                                                    placeholder="Degree"
-                                                                    select
-                                                                >
-                                                                    {KERALA_DEGREES.map((deg) => (
-                                                                        <MenuItem key={deg} value={deg}>{deg}</MenuItem>
+                                                            <MuiTextField
+                                                                fullWidth
+                                                                name="batch_year"
+                                                                value={formData.batch_year}
+                                                                onChange={handleInputChange}
+                                                                size="small"
+                                                                placeholder="Batch Year"
+                                                                select
+                                                            >
+                                                                {Array.from({ length: new Date().getFullYear() - 1950 }, (_, i) => 1950 + i)
+                                                                    .reverse()
+                                                                    .map((yr) => (
+                                                                        <MenuItem key={yr} value={yr}>{yr}</MenuItem>
                                                                     ))}
-                                                                </MuiTextField>
-                                                                <MuiTextField
-                                                                    fullWidth
-                                                                    name="batch_year"
-                                                                    value={formData.batch_year}
-                                                                    onChange={handleInputChange}
-                                                                    size="small"
-                                                                    placeholder="Batch Year"
-                                                                    select
-                                                                >
-                                                                    {Array.from({ length: new Date().getFullYear() - 1950 }, (_, i) => 1950 + i)
-                                                                        .reverse()
-                                                                        .map((yr) => (
-                                                                            <MenuItem key={yr} value={yr}>{yr}</MenuItem>
-                                                                        ))}
-                                                                </MuiTextField>
-                                                            </Stack>
-                                                            <Stack direction="row" spacing={1.5}>
-                                                                <Button variant="outlined" onClick={() => cancelSection('education')} sx={{ textTransform: 'none' }}>
-                                                                    Cancel
-                                                                </Button>
-                                                                <Button variant="contained" onClick={() => saveSection('education')} sx={{ bgcolor: deepZinc, textTransform: 'none' }}>
-                                                                    Save
-                                                                </Button>
-                                                            </Stack>
-                                                        </>
-                                                    ) : (
-                                                        <>
-                                                            <Typography variant="h6" fontWeight="800" sx={{ fontSize: { xs: '0.95rem', md: '1.1rem' } }}>
-                                                                {user.college}
-                                                            </Typography>
-                                                            <Typography variant="body2" color={mutedZinc} sx={{ fontSize: { xs: '0.85rem', md: '0.95rem' } }}>
-                                                                {user.degree}
-                                                            </Typography>
-                                                            <Typography variant="caption" color={mutedZinc} fontWeight="600" sx={{ fontSize: { xs: '0.75rem', md: '0.8rem' } }}>
-                                                                Batch Year: {user.batch_year}
-                                                            </Typography>
-                                                        </>
-                                                    )}
-                                                </Box>
+                                                            </MuiTextField>
+                                                        </Stack>
+                                                        <Stack direction="row" spacing={1.5}>
+                                                            <Button variant="outlined" onClick={() => cancelSection('education')} sx={{ textTransform: 'none' }}>
+                                                                Cancel
+                                                            </Button>
+                                                            <Button variant="contained" onClick={() => saveSection('education')} sx={{ bgcolor: deepZinc, textTransform: 'none' }}>
+                                                                Save
+                                                            </Button>
+                                                        </Stack>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <Typography variant="h6" fontWeight="800" sx={{ fontSize: { xs: '0.95rem', md: '1.1rem' } }}>
+                                                            {user.college}
+                                                        </Typography>
+                                                        <Typography variant="body2" color={mutedZinc} sx={{ fontSize: { xs: '0.85rem', md: '0.95rem' } }}>
+                                                            {user.degree}
+                                                        </Typography>
+                                                        <Typography variant="caption" color={mutedZinc} fontWeight="600" sx={{ fontSize: { xs: '0.75rem', md: '0.8rem' } }}>
+                                                            Batch Year: {user.batch_year}
+                                                        </Typography>
+                                                    </>
+                                                )}
                                             </Box>
-                                        </Stack>
-                                    </Paper>
-                                </Stack>              
+                                        </Box>
+                                    </Stack>
+                                </Paper>
+                            </Stack>
                         </Grid>
                     </Grid>
                 </Container>
