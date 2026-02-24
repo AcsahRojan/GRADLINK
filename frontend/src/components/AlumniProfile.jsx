@@ -4,8 +4,7 @@ import {
   Container,
   Typography,
   Stack,
-  Card,
-  CardContent,
+  Paper,
   Avatar,
   Button,
   Grid,
@@ -17,7 +16,8 @@ import {
   Backdrop,
   FormControlLabel,
   Checkbox,
-  FormGroup
+  FormGroup,
+  Chip
 } from '@mui/material';
 import {
   ArrowBack,
@@ -141,188 +141,205 @@ const AlumniProfile = () => {
   return (
     <>
       <SNavbar />
-      <Box sx={{ bgcolor: '#fafafa', minHeight: '100vh', pt: 8, pb: 8 }}>
-        <Container maxWidth="lg">
+      <Box sx={{ bgcolor: '#fcfcfd', minHeight: '100vh', pt: { xs: 2, md: 4 }, pb: 8 }}>
+        <Container maxWidth="xl" sx={{ px: { xs: 1.5, md: 4 } }}>
           {/* Navigation */}
           <Button
             startIcon={<ArrowBack />}
             onClick={() => navigate(-1)}
-            sx={{ mb: 1, color: mutedZinc, textTransform: 'none', fontWeight: 600 }}
+            sx={{ mb: 3, color: mutedZinc, textTransform: 'none', fontWeight: 600, '&:hover': { color: deepZinc } }}
           >
             Back to Alumni List
           </Button>
 
-          <Grid container spacing={4}>
+          <Grid container spacing={{ xs: 2, md: 4 }} display={'grid'} gridTemplateColumns={{ xs: '1fr', md: '1fr 2fr' }}>
             {/* Left Column: Basic Info & Actions */}
-            <Grid item xs={12} md={4}>
-              <Stack spacing={3}>
-                <Card elevation={0} sx={{ borderRadius: '24px', border: `1px solid ${glassBorder}`, textAlign: 'center', p: 2 }}>
-                  <CardContent>
-                    <Avatar
-                      src={alumniData.image ? (alumniData.image.startsWith('http') ? alumniData.image : `http://localhost:8000${alumniData.image}`) : ''}
-                      sx={{
-                        width: 120,
-                        height: 120,
-                        bgcolor: primaryBrand,
-                        fontSize: '2.5rem',
-                        fontWeight: 700,
-                        mx: 'auto',
-                        mb: 2,
-                        boxShadow: `0 0 0 6px ${primaryBrand}10`
-                      }}
-                    >
-                      {!alumniData.image && alumniData.avatar}
-                    </Avatar>
-                    <Stack direction="row" spacing={1} alignItems="center" justifyContent="center">
-                      
-                    </Stack>
-                    <Typography variant="body1" fontWeight="600" color={mutedZinc} sx={{ mb: 1 }}>
-                      {alumniData.role}
-                    </Typography>
+            <Grid item xs={12} md={5} lg={4}>
+              <Paper elevation={0} sx={{
+                borderRadius: { xs: '16px', md: '24px' },
+                border: '1px solid rgba(228, 228, 231, 0.6)',
+                overflow: 'hidden',
+                position: 'sticky',
+                top: { lg: 100 }
+              }}>
+                <Box sx={{
+                  height: { xs: 100, md: 140 },
+                  bgcolor: deepZinc,
+                  position: 'relative'
+                }} />
 
-                    {alumniData.linkedin_url && (
-                      <Stack direction="row" spacing={1.5} justifyContent="center" sx={{ mb: 2 }}>
-                        <IconButton
-                          href={alumniData.linkedin_url}
-                          target="_blank"
-                          size="small"
-                          sx={{
-                            color: deepZinc,
-                            border: '1px solid rgba(228, 228, 231, 0.6)',
-                            borderRadius: '8px',
-                            '&:hover': { borderColor: primaryBrand, color: primaryBrand }
-                          }}
-                        >
-                          <LinkedIn fontSize="small" />
-                        </IconButton>
-                      </Stack>
-                    )}
+                <Box sx={{ px: { xs: 2.5, md: 4 }, pb: { xs: 3, md: 5 }, mt: { xs: -5, md: -7 }, textAlign: 'center' }}>
+                  <Avatar
+                    src={alumniData.image ? (alumniData.image.startsWith('http') ? alumniData.image : `http://localhost:8000${alumniData.image}`) : ''}
+                    sx={{
+                      width: { xs: 90, md: 130 },
+                      height: { xs: 90, md: 130 },
+                      margin: '0 auto',
+                      border: '5px solid white',
+                      bgcolor: primaryBrand,
+                      fontSize: { xs: '1.8rem', md: '2.5rem' },
+                      fontWeight: 800
+                    }}
+                  >
+                    {!alumniData.image && alumniData.avatar}
+                  </Avatar>
 
-                    <Divider sx={{ my: 2, borderStyle: 'dashed' }} />
-
-                    <Stack spacing={1.5} sx={{ textAlign: 'left' }}>
-                      <Stack direction="row" spacing={1.5} alignItems="center">
-                        <Business sx={{ color: mutedZinc, fontSize: 20 }} />
-                        <Typography variant="body2" fontWeight="700">{alumniData.company}</Typography>
-                      </Stack>
-                      <Stack direction="row" spacing={1.5} alignItems="center">
-                        <School sx={{ color: mutedZinc, fontSize: 20 }} />
-                        <Typography variant="body2" color={mutedZinc}>
-                          {alumniData.dept} • <span style={{ fontWeight: 700, color: deepZinc }}>Class of {alumniData.batch}</span>
-                        </Typography>
-                      </Stack>
-                    </Stack>
-
-                    <Box sx={{ mt: 4 }}>
-                      {!isAccepted ? (
-                        <Button
-                          fullWidth
-                          variant="contained"
-                          disableElevation
-                          disabled={!alumniData.isAvailable || requestSent}
-                          onClick={() => setRequestModal(true)}
-                          sx={{
-                            bgcolor: deepZinc,
-                            py: 1.5,
-                            borderRadius: '12px',
-                            fontWeight: 700,
-                            textTransform: 'none',
-                            '&:hover': { bgcolor: '#18181b' }
-                          }}
-                        >
-                          {requestSent ? 'Request Pending' : 'Request Mentorship'}
-                        </Button>
-                      ) : (
-                        <Button
-                          fullWidth
-                          variant="outlined"
-                          onClick={() => navigate(`/mentorshipactivities/${requestId}`)}
-                          sx={{ py: 1.5, borderRadius: '12px', fontWeight: 700, textTransform: 'none' }}
-                        >
-                          View Active Mentorship
-                        </Button>
-                      )}
-                      {!alumniData.isAvailable && (
-                        <Typography variant="caption" color="error" sx={{ mt: 1, display: 'block', fontWeight: 600 }}>
-                          Currently not accepting new mentees
-                        </Typography>
-                      )}
-                    </Box>
-                  </CardContent>
-                </Card>
-
-                {/* <Paper sx={{ p: 3, borderRadius: '20px', bgcolor: 'rgba(99, 102, 241, 0.03)', border: `1px solid ${primaryBrand}20` }}>
-                  <Stack direction="row" spacing={1} mb={1}>
-                    <InfoOutlined sx={{ fontSize: 18, color: primaryBrand }} />
-                    <Typography variant="subtitle2" fontWeight="800" color={primaryBrand}>Mentorship Note</Typography>
-                  </Stack>
-                  <Typography variant="body2" color={mutedZinc} lineHeight={1.6}>
-                    {alumniData.mentoringBio}
+                  <Typography variant="h6" fontWeight="800" sx={{
+                    mt: { xs: 1.5, md: 3 },
+                    fontSize: { xs: '1rem', md: '1.25rem' }
+                  }}>
+                    {alumniData.name}
                   </Typography>
-                </Paper> */}
-              </Stack>
+
+                  <Typography variant="body2" color={mutedZinc} fontWeight="500" sx={{ fontSize: { xs: '0.8rem', md: '0.9rem' }, mt: 0.5 }}>
+                    {alumniData.role} @ {alumniData.company}
+                  </Typography>
+
+                  {alumniData.linkedin_url && (
+                    <Stack direction="row" spacing={1.5} justifyContent="center" sx={{ mt: { xs: 1.5, md: 3 } }}>
+                      <IconButton
+                        href={alumniData.linkedin_url}
+                        target="_blank"
+                        size="small"
+                        sx={{
+                          color: deepZinc,
+                          border: '1px solid rgba(228, 228, 231, 0.6)',
+                          borderRadius: '8px',
+                          '&:hover': { borderColor: primaryBrand, color: primaryBrand }
+                        }}
+                      >
+                        <LinkedIn fontSize="small" />
+                      </IconButton>
+                    </Stack>
+                  )}
+
+                  <Divider sx={{ my: { xs: 2, md: 3 } }} />
+
+                  <Stack spacing={{ xs: 1.5, md: 2.5 }} sx={{ textAlign: 'left' }}>
+                    <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center' }}>
+                      <School sx={{ color: mutedZinc, fontSize: { xs: '1.1rem', md: '1.25rem' } }} />
+                      <Box>
+                        <Typography variant="caption" fontWeight="600" color={mutedZinc} display="block">EDUCATION</Typography>
+                        <Typography variant="body2" sx={{ fontSize: { xs: '0.8rem', md: '0.9rem' } }}>
+                          {alumniData.dept} • {alumniData.batch}
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </Stack>
+
+                  <Box sx={{ mt: 4 }}>
+                    {!isAccepted ? (
+                      <Button
+                        fullWidth
+                        variant="contained"
+                        disableElevation
+                        disabled={!alumniData.isAvailable || requestSent}
+                        onClick={() => setRequestModal(true)}
+                        sx={{
+                          bgcolor: deepZinc,
+                          py: 1.5,
+                          borderRadius: '12px',
+                          fontWeight: 700,
+                          textTransform: 'none',
+                          '&:hover': { bgcolor: '#18181b' }
+                        }}
+                      >
+                        {requestSent ? 'Request Pending' : 'Request Mentorship'}
+                      </Button>
+                    ) : (
+                      <Button
+                        fullWidth
+                        variant="outlined"
+                        onClick={() => navigate(`/mentorshipactivities/${requestId}`)}
+                        sx={{ py: 1.5, borderRadius: '12px', fontWeight: 700, textTransform: 'none', borderColor: deepZinc, color: deepZinc, '&:hover': { borderColor: primaryBrand, bgcolor: 'transparent' } }}
+                      >
+                        View Active Mentorship
+                      </Button>
+                    )}
+                    {!alumniData.isAvailable && (
+                      <Typography variant="caption" color="error" sx={{ mt: 1, display: 'block', fontWeight: 600 }}>
+                        Currently not accepting new mentees
+                      </Typography>
+                    )}
+                  </Box>
+                </Box>
+              </Paper>
             </Grid>
 
-            {/* Right Column: Detailed Bio */}
-            <Grid item xs={12} md={8}>
-              <Stack spacing={4}>
-                {/* Career Summary */}
-                <Box>
+            {/* Right Column: Detailed Info */}
+            <Grid item xs={12} md={7} lg={8}>
+              <Stack spacing={{ xs: 2.5, md: 4 }}>
+                {/* Mentorship Note */}
+                <Paper elevation={0} sx={{
+                  p: { xs: 2.5, md: 4 },
+                  borderRadius: { xs: '16px', md: '24px' },
+                  border: '1px solid rgba(228, 228, 231, 0.6)'
+                }}>
                   <Stack direction="row" spacing={1.5} alignItems="center" mb={2}>
                     <WorkHistory sx={{ color: deepZinc }} />
-                    <Typography variant="h6" fontWeight="800">Mentorship note</Typography>
+                    <Typography variant="h6" fontWeight="800" sx={{ fontSize: { xs: '1rem', md: '1.1rem' } }}>Mentorship Note</Typography>
                   </Stack>
-                  <Typography variant="body1" color={mutedZinc} sx={{ lineHeight: 1.8 }}>
+                  <Typography variant="body1" color="#4b5563" sx={{ lineHeight: 1.8, fontSize: { xs: '0.85rem', md: '0.95rem' } }}>
                     {alumniData.summary}
                   </Typography>
-                </Box>
-
-                {/* Skills */}
-                {/* <Box>
-                  <Stack direction="row" spacing={1.5} alignItems="center" mb={2}>
-                    <Psychology sx={{ color: deepZinc }} />
-                    <Typography variant="h6" fontWeight="800">Skills</Typography>
-                  </Stack>
-                  <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
-                    {alumniData.skills.map(skill => (
-                      <Chip key={skill} label={skill} sx={{ fontWeight: 600, bgcolor: '#fff', border: `1px solid ${glassBorder}` }} />
-                    ))}
-                  </Stack>
-                </Box> */}
+                </Paper>
 
                 {/* Education */}
-                <Box>
-                  <Stack direction="row" spacing={1.5} alignItems="center" mb={2}>
+                <Paper elevation={0} sx={{
+                  p: { xs: 2.5, md: 4 },
+                  borderRadius: { xs: '16px', md: '24px' },
+                  border: '1px solid rgba(228, 228, 231, 0.6)'
+                }}>
+                  <Stack direction="row" spacing={1.5} alignItems="center" mb={3}>
                     <School sx={{ color: deepZinc }} />
-                    <Typography variant="h6" fontWeight="800">Education</Typography>
+                    <Typography variant="h6" fontWeight="800" sx={{ fontSize: { xs: '1rem', md: '1.1rem' } }}>Education</Typography>
                   </Stack>
                   <Stack spacing={2}>
                     {alumniData.education.map((edu, idx) => (
-                      <Box key={idx} sx={{ p: 2, borderRadius: '12px', border: `1px solid ${glassBorder}` }}>
-                        <Typography variant="subtitle2" fontWeight="800">{edu.degree}</Typography>
-                        <Typography variant="caption" color={mutedZinc} fontWeight="600">{edu.school} • {edu.year}</Typography>
+                      <Box key={idx} sx={{ display: 'flex', gap: 2 }}>
+                        <Box sx={{ p: 1.5, bgcolor: '#f1f1f4', borderRadius: '12px', display: 'flex', alignItems: 'center', height: 'fit-content' }}>
+                          <School sx={{ color: primaryBrand, fontSize: '1.3rem' }} />
+                        </Box>
+                        <Box>
+                          <Typography variant="subtitle2" fontWeight="800" sx={{ fontSize: { xs: '0.9rem', md: '1rem' } }}>{edu.degree}</Typography>
+                          <Typography variant="body2" color={mutedZinc} sx={{ fontSize: { xs: '0.85rem', md: '0.9rem' } }}>{edu.school}</Typography>
+                          <Typography variant="caption" color={mutedZinc} fontWeight="600">Batch Year: {edu.year}</Typography>
+                        </Box>
                       </Box>
                     ))}
                   </Stack>
-                </Box>
+                </Paper>
 
-                {/* Mentoring Offered */}
-                <Box>
-                  <Stack direction="row" spacing={1.5} alignItems="center" mb={2}>
+                {/* Mentoring Services */}
+                <Paper elevation={0} sx={{
+                  p: { xs: 2.5, md: 4 },
+                  borderRadius: { xs: '16px', md: '24px' },
+                  border: '1px solid rgba(228, 228, 231, 0.6)'
+                }}>
+                  <Stack direction="row" spacing={1.5} alignItems="center" mb={3}>
                     <Handshake sx={{ color: deepZinc }} />
-                    <Typography variant="h6" fontWeight="800">Mentoring Services</Typography>
+                    <Typography variant="h6" fontWeight="800" sx={{ fontSize: { xs: '1rem', md: '1.1rem' } }}>Mentoring Services</Typography>
                   </Stack>
-                  <Grid container spacing={2}>
+                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5 }}>
                     {alumniData.mentoringTypes.map(type => (
-                      <Grid item xs={12} sm={6} key={type.id || type}>
-                        <Stack direction="row" spacing={1.5} alignItems="center" sx={{ p: 2, bgcolor: '#fff', borderRadius: '12px', border: `1px solid ${glassBorder}` }}>
-                          <Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: primaryBrand }} />
-                          <Typography variant="body2" fontWeight="700">{type.name || type}</Typography>
-                        </Stack>
-                      </Grid>
+                      <Box
+                        key={type.id || type}
+                        sx={{
+                          p: '12px 20px',
+                          bgcolor: '#f8fafc',
+                          borderRadius: '12px',
+                          border: '1px solid rgba(228, 228, 231, 0.6)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 1.5
+                        }}
+                      >
+                        <Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: primaryBrand }} />
+                        <Typography variant="body2" fontWeight="700">{type.name || type}</Typography>
+                      </Box>
                     ))}
-                  </Grid>
-                </Box>
+                  </Box>
+                </Paper>
               </Stack>
             </Grid>
           </Grid>
