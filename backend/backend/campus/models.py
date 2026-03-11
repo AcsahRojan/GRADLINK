@@ -17,7 +17,7 @@ class User(AbstractUser):
     bio = models.TextField(blank=True, null=True)
     image = models.ImageField(upload_to='profile_images/', blank=True, null=True)
 
-    def __str__(self):
+    def __str__(self): #This controls how the object appears in Django admin.
         return self.username
 
 

@@ -1,5 +1,5 @@
 from django.urls import path, include
-from rest_framework.routers import DefaultRouter
+from rest_framework.routers import DefaultRouter #automatically creates URLs for ModelViewSets
 from .views import (
     signup, login_view, update_profile, logout_view, delete_profile,
     EventViewSet, AlumniViewSet, MentorshipTypeViewSet,

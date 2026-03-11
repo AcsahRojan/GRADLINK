@@ -158,7 +158,7 @@ class UserUpdateSerializer(serializers.ModelSerializer):
 # =========================
 class EventSerializer(serializers.ModelSerializer):
     organizer_name = serializers.CharField(source='organizer.username', read_only=True)
-    is_registered = serializers.SerializerMethodField()
+    is_registered = serializers.SerializerMethodField() #Used when a field does not exist in the model but we want to generate it.
     participants_count = serializers.IntegerField(source='registered_users.count', read_only=True)
     participants = serializers.SerializerMethodField()
 
@@ -186,6 +186,7 @@ class EventSerializer(serializers.ModelSerializer):
 class AlumniCardSerializer(serializers.ModelSerializer):
     name = serializers.SerializerMethodField()
     role = serializers.CharField(source='alumni_profile.job_title', read_only=True)
+    # source: Used to access related model fields.
     company = serializers.CharField(source='alumni_profile.current_company', read_only=True)
     dept = serializers.CharField(source='degree', read_only=True)
     batch = serializers.IntegerField(source='batch_year', read_only=True)
@@ -249,7 +250,7 @@ class MentorshipRequestSerializer(serializers.ModelSerializer):
 class MentorshipActivitySerializer(serializers.ModelSerializer):
     class Meta:
         model = MentorshipActivity
-        fields = '__all__'
+        fields = '__all__' #means return every field from model
 
 
 class JobSerializer(serializers.ModelSerializer):

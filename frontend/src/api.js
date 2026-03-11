@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+// This is the base URL of the Django backend API.
+// Meaning all API calls will start from:
 const API_URL = 'http://localhost:8000/api/';
 
 const api = axios.create({
@@ -46,6 +48,7 @@ export const updateEvent = async (id, eventData) => {
     return response.data;
 };
 
+//Alumni APIs
 export const getAlumni = async () => {
     const response = await api.get('alumni/');
     return response.data;
@@ -61,6 +64,7 @@ export const updateProfile = async (profileData) => {
     return response.data;
 };
 
+//Mentorship System APIs
 export const getMentorshipTypes = async () => {
     const response = await api.get('mentorship-types/');
     return response.data;
@@ -91,6 +95,7 @@ export const cancelMentorshipRequest = async (id) => {
     return response.data;
 };
 
+//Mentorship Activities
 export const getMentorshipActivities = async (requestId) => {
     const url = requestId ? `mentorship-activities/?request_id=${requestId}` : 'mentorship-activities/';
     const response = await api.get(url);

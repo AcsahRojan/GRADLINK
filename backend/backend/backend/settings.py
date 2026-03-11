@@ -30,7 +30,7 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-
+#This tells Django which apps are active in the project.
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -38,12 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'campus',
-    'corsheaders',
-    'rest_framework',
-    'rest_framework.authtoken',
+    'campus', #our custom app
+    'corsheaders', #allows React frontend to access the backend
+    'rest_framework', #Used to build APIs
+    'rest_framework.authtoken', #Used for token authentication
 ]
 
+#Middleware are layers that process requests and responses.
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',    
@@ -56,7 +57,8 @@ MIDDLEWARE = [
     
 ]
 
-
+#This tells Django:
+#The main URL routing file is urls.py inside the backend folder.
 ROOT_URLCONF = 'backend.urls'
 
 TEMPLATES = [
@@ -128,8 +130,6 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-#CORS configuration
-# CORS_ALLOW_ALL_ORIGINS = True
 
 #tell Django to use the custom user model
 AUTH_USER_MODEL = 'campus.User'

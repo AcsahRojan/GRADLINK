@@ -25,7 +25,7 @@ def signup(request):
 
     if serializer.is_valid():
         user = serializer.save()
-        token, created = Token.objects.get_or_create(user=user)
+        token, created = Token.objects.get_or_create(user=user) #This creates an authentication token
         return Response(
             {
                 "message": "Signup successful",
@@ -122,7 +122,7 @@ def delete_profile(request):
 
 from rest_framework import viewsets
 from .serializers import SignupSerializer, UserSerializer, UserUpdateSerializer, EventSerializer, AlumniCardSerializer
-from .models import User, Event
+# from .models import User, Event
 
 # =========================
 # EVENTS VIEWSET
@@ -139,7 +139,7 @@ class EventViewSet(viewsets.ModelViewSet):
     def register(self, request, pk=None):
         event = self.get_object()
         user = request.user
-        
+        #This checks:Is the user already registered for the event?
         if event.registered_users.filter(id=user.id).exists():
             event.registered_users.remove(user)
             return Response({'status': 'unregistered'}, status=status.HTTP_200_OK)
@@ -246,24 +246,24 @@ def alumni_dashboard_stats(request):
     
     # Hours mentored - sum from completed activities
     # Assuming each completed activity is 1 hour for now
-    completed_activities = MentorshipActivity.objects.filter(
-        mentorship_request__alumni=user,
-        status='completed'
-    ).count()
-    hours_mentored = completed_activities  # Can be enhanced later with actual duration field
+    # completed_activities = MentorshipActivity.objects.filter(
+    #     mentorship_request__alumni=user,
+    #     status='completed'
+    # ).count()
+    # hours_mentored = completed_activities  # Can be enhanced later with actual duration field
     
     # Average rating - placeholder (4.9) until rating system is implemented
-    avg_rating = 4.9
+    # avg_rating = 4.9
     
     # Success rate - percentage of accepted vs total requests
-    total_requests = MentorshipRequest.objects.filter(alumni=user).exclude(status='cancelled').count()
-    success_rate = round((accepted_requests.count() / total_requests * 100), 0) if total_requests > 0 else 0
+    # total_requests = MentorshipRequest.objects.filter(alumni=user).exclude(status='cancelled').count()
+    # success_rate = round((accepted_requests.count() / total_requests * 100), 0) if total_requests > 0 else 0
     
     return Response({
         'total_mentees': total_mentees,
-        'hours_mentored': hours_mentored,
-        'avg_rating': avg_rating,
-        'success_rate': f"{int(success_rate)}%"
+        # 'hours_mentored': hours_mentored,
+        # 'avg_rating': avg_rating,
+        # 'success_rate': f"{int(success_rate)}%"
     })
 
 
@@ -276,14 +276,16 @@ from rest_framework.parsers import JSONParser, MultiPartParser, FormParser
 class MentorshipActivityViewSet(viewsets.ModelViewSet):
     serializer_class = MentorshipActivitySerializer
     permission_classes = [IsAuthenticated]
-    parser_classes = (JSONParser, MultiPartParser, FormParser)
+    parser_classes = (JSONParser, MultiPartParser, FormParser) #These tell the API how to read incoming data.
 
+    # The get_queryset method is overridden to allow filtering activities based on mentorship request and status.
     def get_queryset(self):
         user = self.request.user
         request_id = self.request.query_params.get('request_id')
         status_filter = self.request.query_params.get('status')
         
-        # Base queryset: user must be student or alumni of the request
+        # Base queryset: Only show activities where the user is involved.
+        #Q() is used to apply OR conditions.
         queryset = MentorshipActivity.objects.filter(
             Q(mentorship_request__student=user) | Q(mentorship_request__alumni=user)
         )
