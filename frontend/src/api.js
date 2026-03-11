@@ -1,3 +1,5 @@
+//Instead of writing axios calls everywhere in the app, all API requests are centralized in this file.
+
 import axios from 'axios';
 
 // This is the base URL of the Django backend API.

@@ -1,5 +1,5 @@
-from django.contrib.auth.models import AbstractUser
-from django.db import models
+from django.contrib.auth.models import AbstractUser # to inherit the default user table provided by django 
+from django.db import models # to create our own tables in the database
 
 
 
